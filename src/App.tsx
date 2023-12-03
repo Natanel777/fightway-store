@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router-dom";
 
-function App() {
+
+import Example from './Components/Example';
+import Navbar from "Components/Navbar/Navbar";
+import Main from "Routes/Main";
+import Store from "Routes/Store";
+import Login from "Routes/Login";
+import Striking from "Routes/Striking";
+import Grappling from "Routes/Grappling";
+import NewNavbar from "Components/Navbar/NewNavbar";
+import About from "Routes/About";
+// import About from "Routes/About";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {/* <Navbar /> */}
+      <NewNavbar />
+      <Routes>
+        <Route path="/main" element={<Main />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/store" element={<Store />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/striking" element={<Striking />} />
+        <Route path="/grappling" element={<Grappling />} />
+      </Routes>
+    </>
   );
-}
+};
+
 
 export default App;

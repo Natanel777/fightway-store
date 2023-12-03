@@ -1,5 +1,11 @@
 {
   "compilerOptions": {
+    // ... existing options ...
+    "baseUrl": "./src",
+    "paths": {
+      "@heroicons/react/*": ["../node_modules/@heroicons/react/*"],
+      "@headlessui/react": ["../node_modules/@headlessui/react"]
+    },
     "target": "es5",
     "lib": [
       "dom",
@@ -16,7 +22,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "noEmit": true,
     "jsx": "react-jsx"
   },
