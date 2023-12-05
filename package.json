@@ -53,6 +53,7 @@
   "devDependencies": {
     "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.23.2",
+    "@babel/plugin-proposal-private-property-in-object": "version", 
     "tailwindcss": "^3.3.5"
   }
 }
