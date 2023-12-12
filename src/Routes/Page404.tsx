@@ -1,7 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import notFoundImage from '../Assets/NotFound.jpg';
+import CurrentPageContext from 'Context/CurrentPageContext';
+import { useContext } from 'react';
 
 export default function Page404() {
+  const { currentPage, changeCurrentPage } = useContext(CurrentPageContext)
     const backgroundImageUrl = notFoundImage; 
 
   return (
@@ -13,7 +16,8 @@ export default function Page404() {
           <p className="mt-6 text-base leading-7 text-gray-600">Sorry, we couldn’t find the page you’re looking for.</p>
           <div className="mt-11">
             <NavLink
-              to="/main"
+              to="/store"
+              onClick={ () => changeCurrentPage("/store")}
               className="rounded-md bg-gray-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Go back home

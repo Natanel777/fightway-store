@@ -1,8 +1,8 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { boolean } from "yup";
 
 interface AuthContextState {
     isLoggedIn: boolean;
+    signUp: () => void
     login: (username: string, token: string) => void;
     logout: () => void;
     token?: string
@@ -12,6 +12,7 @@ interface AuthContextState {
 const initialState =
 {
     isLoggedIn: false,
+    signUp: () => { },
     login: (username: string, token: string) => { },
     logout: () => { },
     token: undefined,
@@ -46,6 +47,9 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         isLoggedIn: isLoggedIn,
         token,
         username,
+        signUp:() =>{
+            setIsLoggedIn(true)
+        },
         login: (username: string, token: string) => {
             setUsername(username)
             setToken(token)

@@ -15,6 +15,8 @@ import SignUp from "Routes/SignUp";
 import { useContext } from "react";
 import AuthContext from "Context/AuthContext";
 import Support from "Routes/Support";
+import ProductDetails from "Routes/ProductDetail";
+
 
 const App = () => {
   const { isLoggedIn } = useContext(AuthContext)
@@ -23,11 +25,13 @@ const App = () => {
       {/* <Navbar /> */}
       <Navbar />
       <Routes>
-       { <Route path="/main" element={<Main />} /> }
+        <Route path="/" element={<Main />} />
+        <Route path="/main" element={<Main />} />
         <Route path="/about" element={<About />} />
         <Route path="/store" element={<Store />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/store/:id" element={<ProductDetails />} />
+        {!isLoggedIn && <Route path="/login" element={<Login />} />}
+        {!isLoggedIn && <Route path="/signup" element={<SignUp />} />}
         <Route path="/striking" element={<Striking />} />
         <Route path="/grappling" element={<Grappling />} />
         <Route path="/support" element={<Support />} />
