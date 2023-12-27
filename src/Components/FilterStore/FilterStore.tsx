@@ -5,13 +5,9 @@ import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon} from '@heroicons/reac
 import classNames from 'utils/classNames'
 import { NavLink } from 'react-router-dom'
 import CurrentPageContext from 'Context/CurrentPageContext'
+import { SortDir } from 'utils/types'
 
 
-const sortOptions = [
-    { name: 'Newest', href: '#', current: true },
-    { name: 'Price: Low to High', href: '#', current: false },
-    { name: 'Price: High to Low', href: '#', current: false },
-]
     {/* Need to get all the type of Product entity and for loop on that */}
 const subCategories = [
     { name: 'Gloves', href: '#' },
@@ -31,15 +27,22 @@ const filters = [
         ],
     },
 ]
-
 interface FilterStoreProps {
     additionalComponent: ReactNode; 
+    filtersSection: { [key: string]: () => void };
   }
 
 
-const FilterStore: React.FC<FilterStoreProps> = ({ additionalComponent: AdditionalComponent }) => {
+const FilterStore: React.FC<FilterStoreProps> = ({ additionalComponent, filtersSection }) => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+    const [currentSort, setCurrentSort] = useState("Newest")
     const { currentPage, changeCurrentPage } = useContext(CurrentPageContext)
+
+    const sortOptions = [
+        { name: 'Newest', onClick: () =>{ filtersSection.onNewestClick() }, current: currentSort === 'Newest' },
+        { name: 'Price: Low to High', onClick: () =>{ filtersSection.onPriceAscClick() }, current: currentSort === 'Price: Low to High' },
+        { name: 'Price: High to Low', onClick: () =>{ filtersSection.onPriceDescClick() }, current: currentSort === 'Price: High to Low' },
+    ]
 
     return (
         <div className="bg-white">
@@ -147,7 +150,7 @@ const FilterStore: React.FC<FilterStoreProps> = ({ additionalComponent: Addition
                  {/* start of the filter */}                                                    
                 <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-                        <h1 className="text-4xl font-bold tracking-tight text-gray-900">Store</h1>
+                        <h1 className="text-4xl font-bold tracking-tight text-gray-900">MMA</h1>
 
                         <div className="flex items-center">
                             <Menu as="div" className="relative inline-block text-left">
@@ -176,16 +179,19 @@ const FilterStore: React.FC<FilterStoreProps> = ({ additionalComponent: Addition
                                             {sortOptions.map((option) => (
                                                 <Menu.Item key={option.name}>
                                                     {({ active }) => (
-                                                        <a
-                                                            href={option.href}
+                                                        <div
                                                             className={classNames(
                                                                 option.current ? 'font-medium text-gray-900' : 'text-gray-500',
                                                                 active ? 'bg-gray-100' : '',
-                                                                'block px-4 py-2 text-sm'
+                                                                'block px-4 py-2 text-sm cursor-pointer'
                                                             )}
+                                                            onClick={() => { 
+                                                                option.onClick(); 
+                                                                setCurrentSort(option.name);
+                                                              }}
                                                         >
                                                             {option.name}
-                                                        </a>
+                                                        </div>
                                                     )}
                                                 </Menu.Item>
                                             ))}
@@ -222,7 +228,7 @@ const FilterStore: React.FC<FilterStoreProps> = ({ additionalComponent: Addition
                                         </li>
                                     ))}
                                 </ul>
-
+                                        
                                 {currentPage === '/store' && filters.map((section) => (
                                     <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
                                         {({ open }) => (
@@ -269,7 +275,7 @@ const FilterStore: React.FC<FilterStoreProps> = ({ additionalComponent: Addition
 
                             {/* Product grid */}
                             <div className="lg:col-span-3">
-                                {AdditionalComponent ? AdditionalComponent  : <NavLink to={"/404"}></NavLink>}
+                                {additionalComponent ? additionalComponent  : <NavLink to={"/404"}></NavLink>}
                             </div>
                         </div>
                     </section>
@@ -280,3 +286,4 @@ const FilterStore: React.FC<FilterStoreProps> = ({ additionalComponent: Addition
 }
 
 export default FilterStore
+

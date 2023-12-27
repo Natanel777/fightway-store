@@ -41,7 +41,8 @@ export default function Login() {
             .then((res) => {
               //save the user name and jwt on the app contect (in memory - app wide state)
               login(username, res.jwt)
-              nav("/store")
+              nav("/main")
+              changeCurrentPage("/main")
             })
 
             .catch((e) => {

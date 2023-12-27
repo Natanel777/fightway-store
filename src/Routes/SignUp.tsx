@@ -62,8 +62,8 @@ export default function SignUp() {
                             timer: 2000
                         })
                         signUp();
-                        nav("/store")
-                        changeCurrentPage("/store")
+                        nav("/main")
+                        changeCurrentPage("/main")
                     })
 
                     .catch((e) => {

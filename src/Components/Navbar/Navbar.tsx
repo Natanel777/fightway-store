@@ -5,14 +5,14 @@ import logo from '../../Assets/logoReact.png';
 import { NavLink } from 'react-router-dom';
 import AuthContext from 'Context/AuthContext';
 import CurrentPageContext from 'Context/CurrentPageContext';
-import Cart from 'Components/Navbar/Cart/Cart';
-import Profile from './CustomerProfile/Profile';
+import Cart from 'Components/Navbar/Cart';
+import Profile from './Profile';
 import classNames from 'utils/classNames';
 
 const navigation = [
     { name: 'Store', href: '/store' },
-    { name: 'Grappling', href: '/grappling' },
     { name: 'Striking', href: '/striking' },
+    { name: 'Grappling', href: '/grappling' },
 ]
 
 export default function Navbar() {

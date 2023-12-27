@@ -7,7 +7,11 @@ module.exports = {
     extend: {
       padding: {
         'p-100': '100%',
+        
       },
+      width: {
+        'screen-90' : '96vw'
+      }
     },
   },
   plugins: [],

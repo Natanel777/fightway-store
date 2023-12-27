@@ -1,8 +1,10 @@
-import FilterStore from "Components/FilterStore/FilterStore"
+
+import Trying from "Components/Trying"
 
 const Grappling = () => {
   return (
-    <div className="min-h-screen">Grappling</div>
+    <div className="min-h-screen">Grappling
+    </div>
   )
 }
 

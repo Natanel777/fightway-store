@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import Main from "Routes/Main";
 import Store from "Routes/Store";
@@ -16,10 +16,20 @@ import { useContext } from "react";
 import AuthContext from "Context/AuthContext";
 import Support from "Routes/Support";
 import ProductDetails from "Routes/ProductDetail";
+import CartItemDetails from "Routes/CartDetails ";
+import React from "react";
+import Order from "Routes/Order";
 
 
 const App = () => {
   const { isLoggedIn } = useContext(AuthContext)
+
+  //prevent manual access on element
+  const PrivateRoute: React.FC<{ element: React.ReactNode }> = ({ element }) => {
+    const { isLoggedIn } = React.useContext(AuthContext);
+    return isLoggedIn ? (element as React.ReactElement) : <Navigate to="/" />;
+  };
+
   return (
     <>
       {/* <Navbar /> */}
@@ -35,6 +45,8 @@ const App = () => {
         <Route path="/striking" element={<Striking />} />
         <Route path="/grappling" element={<Grappling />} />
         <Route path="/support" element={<Support />} />
+        <Route path="/cartdetails" element={<CartItemDetails/>} />
+        <Route path="/order" element={<PrivateRoute element={<Order />} />} />
         <Route path="/*" element={<Page404 />} />
       </Routes>
       <Footer />

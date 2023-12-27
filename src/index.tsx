@@ -8,6 +8,7 @@ import CurrentPageContext, { CurrentPageContextWrapper } from 'Context/CurrentPa
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { StoreContextProvider } from 'Context/StoreContext';
 import 'swiper/swiper-bundle.css';
+import { CartContextProvider } from 'Context/CartContext';
 
 
 
@@ -19,15 +20,17 @@ const client = new QueryClient()
 
 root.render(
   <QueryClientProvider client={client}>
-    <StoreContextProvider>
-    <CurrentPageContextWrapper>
-      <AuthContextProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </AuthContextProvider>
-    </CurrentPageContextWrapper>
-    </StoreContextProvider>
+    <CartContextProvider>
+      <StoreContextProvider>
+        <CurrentPageContextWrapper>
+          <AuthContextProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </AuthContextProvider>
+        </CurrentPageContextWrapper>
+      </StoreContextProvider>
+    </CartContextProvider>
   </QueryClientProvider>
 );
 
