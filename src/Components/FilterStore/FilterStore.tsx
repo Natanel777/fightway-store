@@ -1,47 +1,59 @@
-import { Fragment, ReactNode, useContext, useState } from 'react'
-import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
+import { Dialog, Menu, Transition } from '@headlessui/react'
+import { ChevronDownIcon, FunnelIcon } from '@heroicons/react/20/solid'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon} from '@heroicons/react/20/solid'
-import classNames from 'utils/classNames'
-import { NavLink } from 'react-router-dom'
 import CurrentPageContext from 'Context/CurrentPageContext'
-import { SortDir } from 'utils/types'
+import StoreContext from 'Context/StoreContext'
+import { Fragment, ReactNode, useContext, useEffect, useState } from 'react'
+import { useQuery } from 'react-query'
+import { NavLink } from 'react-router-dom'
+import { storeRequest } from 'services/store-service'
+import classNames from 'utils/classNames'
 
-
-    {/* Need to get all the type of Product entity and for loop on that */}
-const subCategories = [
-    { name: 'Gloves', href: '#' },
-    { name: 'Shirts', href: '#' },
-    { name: 'Protective Equipment', href: '#' },
-    { name: 'Coach Equipment', href: '#' },
-    { name: 'Punching Bags', href: '#' },
-]
-const filters = [
-    {
-        id: 'category',
-        name: 'Category',
-        options: [
-            { value: 'mma', label: 'MMA', checked: false },
-            { value: 'grappling', label: 'Grappling', checked: false },
-            { value: 'striking', label: 'Striking', checked: false },
-        ],
-    },
-]
 interface FilterStoreProps {
-    additionalComponent: ReactNode; 
-    filtersSection: { [key: string]: () => void };
-  }
+    additionalComponent: ReactNode;
+    filtersSection: {
+        onNewestClick: () => void;
+        onPriceAscClick: () => void;
+        onPriceDescClick: () => void;
+        onSubcategoryClick: (subcategory: string | null) => void;
+    };
+}
 
 
 const FilterStore: React.FC<FilterStoreProps> = ({ additionalComponent, filtersSection }) => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
     const [currentSort, setCurrentSort] = useState("Newest")
-    const { currentPage, changeCurrentPage } = useContext(CurrentPageContext)
+    const { currentPage } = useContext(CurrentPageContext)
+    const { setProducts, products } = useContext(StoreContext)
+    const { data: res } = useQuery("get-category-products", storeRequest)
+    var types: string[] = [];
+
+    var page = currentPage.substring(currentPage.lastIndexOf('/') + 1);
+
+    //if products doesnt exsist
+    useEffect(() => {
+        if (res && products.length === 0 && products.length !== res.data.length) {
+            setProducts(res.data);
+        }
+    }, [products.length, res, setProducts])
+
+    if (page === 'store') {
+        types = Array.from(new Set(products.map(product => product.type))).sort();
+
+
+    } else {
+        types = Array.from(
+            new Set(products
+                .filter(product => page.toLowerCase() === product.category?.name.toLowerCase())
+                .map(product => product.type)
+            )
+        );
+    }
 
     const sortOptions = [
-        { name: 'Newest', onClick: () =>{ filtersSection.onNewestClick() }, current: currentSort === 'Newest' },
-        { name: 'Price: Low to High', onClick: () =>{ filtersSection.onPriceAscClick() }, current: currentSort === 'Price: Low to High' },
-        { name: 'Price: High to Low', onClick: () =>{ filtersSection.onPriceDescClick() }, current: currentSort === 'Price: High to Low' },
+        { name: 'Newest', onClick: () => { filtersSection.onNewestClick() }, current: currentSort === 'Newest' },
+        { name: 'Price: Low to High', onClick: () => { filtersSection.onPriceAscClick() }, current: currentSort === 'Price: Low to High' },
+        { name: 'Price: High to Low', onClick: () => { filtersSection.onPriceDescClick() }, current: currentSort === 'Price: High to Low' },
     ]
 
     return (
@@ -85,72 +97,35 @@ const FilterStore: React.FC<FilterStoreProps> = ({ additionalComponent, filtersS
                                         </button>
                                     </div>
 
-                                    {/* Filters */}
-                                    <form className="mt-4 border-t border-gray-200">
+                                    {/* Filters Small Screen*/}
+                                    <div className="mt-4 border-t border-gray-200">
                                         <h3 className="sr-only">Categorie Filter</h3>
-                                        <ul role="list" className="px-2 py-3 font-medium text-gray-900">
-                                            {subCategories.map((category) => (
-                                                <li key={category.name}>
-                                                    <a href={category.href} className="block px-2 py-3">
-                                                        {category.name}
-                                                    </a>
+                                        <ul className="px-2 py-3 font-medium text-gray-900">
+                                            {types.map((type) => (
+                                                <li key={type} className="py-2">
+                                                    <button
+                                                        className="block transition duration-300 ease-in-out hover:text-blue-500 focus:outline-none focus:text-blue-500 px-2 py-1"
+                                                        onClick={() => filtersSection.onSubcategoryClick(type)}
+                                                    >
+                                                        {type}
+                                                    </button>
                                                 </li>
                                             ))}
                                         </ul>
 
-                                        {filters.map((section) => (
-                                            <Disclosure as="div" key={section.id} className="border-t border-gray-200 px-4 py-6">
-                                                {({ open }) => (
-                                                    <>
-                                                        <h3 className="-mx-2 -my-3 flow-root">
-                                                            <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                                                                <span className="font-medium text-gray-900">{section.name}</span>
-                                                                <span className="ml-6 flex items-center">
-                                                                    {open ? (
-                                                                        <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                                                    ) : (
-                                                                        <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                                                    )}
-                                                                </span>
-                                                            </Disclosure.Button>
-                                                        </h3>
-                                                        <Disclosure.Panel className="pt-6">
-                                                            <div className="space-y-6">
-                                                                {section.options.map((option, optionIdx) => (
-                                                                    <div key={option.value} className="flex items-center">
-                                                                        <input
-                                                                            id={`filter-mobile-${section.id}-${optionIdx}`}
-                                                                            name={`${section.id}[]`}
-                                                                            defaultValue={option.value}
-                                                                            type="checkbox"
-                                                                            defaultChecked={option.checked}
-                                                                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                                                        />
-                                                                        <label
-                                                                            htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                                                            className="ml-3 min-w-0 flex-1 text-gray-500"
-                                                                        >
-                                                                            {option.label}
-                                                                        </label>
-                                                                    </div>
-                                                                ))}
-                                                            </div>
-                                                        </Disclosure.Panel>
-                                                    </>
-                                                )}
-                                            </Disclosure>
-                                        ))}
-                                    </form>
+                                    </div>
                                 </Dialog.Panel>
                             </Transition.Child>
                         </div>
                     </Dialog>
                 </Transition.Root>
-                 
-                 {/* start of the filter */}                                                    
+
+                {/* start of the filter */}
                 <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-                        <h1 className="text-4xl font-bold tracking-tight text-gray-900">MMA</h1>
+                        <h1 onClick={() => window.location.reload()} className={`cursor-pointer text-4xl font-extrabold tracking-tight transition-colors duration-300 ease-in-out transform hover:scale-105`}>
+                            {page === "store" ? "MMA" : page.toUpperCase()}
+                        </h1>
 
                         <div className="flex items-center">
                             <Menu as="div" className="relative inline-block text-left">
@@ -173,7 +148,7 @@ const FilterStore: React.FC<FilterStoreProps> = ({ additionalComponent, filtersS
                                     leaveFrom="transform opacity-100 scale-100"
                                     leaveTo="transform opacity-0 scale-95"
                                 >
-                                     {/* Sort items */}
+                                    {/* Sort items */}
                                     <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                         <div className="py-1">
                                             {sortOptions.map((option) => (
@@ -185,10 +160,10 @@ const FilterStore: React.FC<FilterStoreProps> = ({ additionalComponent, filtersS
                                                                 active ? 'bg-gray-100' : '',
                                                                 'block px-4 py-2 text-sm cursor-pointer'
                                                             )}
-                                                            onClick={() => { 
-                                                                option.onClick(); 
+                                                            onClick={() => {
+                                                                option.onClick();
                                                                 setCurrentSort(option.name);
-                                                              }}
+                                                            }}
                                                         >
                                                             {option.name}
                                                         </div>
@@ -199,8 +174,8 @@ const FilterStore: React.FC<FilterStoreProps> = ({ additionalComponent, filtersS
                                     </Menu.Items>
                                 </Transition>
                             </Menu>
-                            
-                              {/* Filters */}
+
+                            {/* Filters */}
                             <button
                                 type="button"
                                 className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
@@ -218,64 +193,28 @@ const FilterStore: React.FC<FilterStoreProps> = ({ additionalComponent, filtersS
                         </h2>
 
                         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+
                             {/* Filters */}
-                            <form className="hidden lg:block">
+                            <div className="hidden lg:block">
                                 <h3 className="sr-only">Categories</h3>
-                                <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
-                                    {subCategories.map((category) => (
-                                        <li key={category.name}>
-                                            <a href={category.href}>{category.name}</a>
+                                <ul className="border-b border-gray-200 pb-4 text-sm font-medium text-gray-900">
+                                    {types.map((type) => (
+                                        <li key={type} className="py-2">
+                                            <button
+                                                className="block transition duration-300 ease-in-out hover:text-blue-500 focus:outline-none focus:text-blue-500"
+                                                onClick={() => filtersSection.onSubcategoryClick(type)}
+                                            >
+                                                {type}
+                                            </button>
                                         </li>
                                     ))}
                                 </ul>
-                                        
-                                {currentPage === '/store' && filters.map((section) => (
-                                    <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
-                                        {({ open }) => (
-                                            <>
-                                                <h3 className="-my-3 flow-root">
-                                                    <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                                                        <span className="font-medium text-gray-900">{section.name}</span>
-                                                        <span className="ml-6 flex items-center">
-                                                            {open ? (
-                                                                <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                                            ) : (
-                                                                <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                                            )}
-                                                        </span>
-                                                    </Disclosure.Button>
-                                                </h3>
-                                                <Disclosure.Panel className="pt-6">
-                                                    <div className="space-y-4">
-                                                        {section.options.map((option, optionIdx) => (
-                                                            <div key={option.value} className="flex items-center">
-                                                                <input
-                                                                    id={`filter-${section.id}-${optionIdx}`}
-                                                                    name={`${section.id}[]`}
-                                                                    defaultValue={option.value}
-                                                                    type="checkbox"
-                                                                    defaultChecked={option.checked}
-                                                                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                                                />
-                                                                <label
-                                                                    htmlFor={`filter-${section.id}-${optionIdx}`}
-                                                                    className="ml-3 text-sm text-gray-600"
-                                                                >
-                                                                    {option.label}
-                                                                </label>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </Disclosure.Panel>
-                                            </>
-                                        )}
-                                    </Disclosure>
-                                ))}
-                            </form>
+
+                            </div>
 
                             {/* Product grid */}
                             <div className="lg:col-span-3">
-                                {additionalComponent ? additionalComponent  : <NavLink to={"/404"}></NavLink>}
+                                {additionalComponent ? additionalComponent : <NavLink to={"/404"}></NavLink>}
                             </div>
                         </div>
                     </section>

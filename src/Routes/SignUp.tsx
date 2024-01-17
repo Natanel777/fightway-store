@@ -1,14 +1,13 @@
-import { NavLink, useNavigate } from 'react-router-dom'
-import icon from '../Assets/blackLogoReact.png'
-import Checkbox from './Checkbox'
-import { useContext, useState } from 'react';
-import * as Yup from 'yup';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
-import authService from 'services/auth-service';
-import Swal from 'sweetalert2';
 import Spinner from 'Components/Spinner/Spinner';
 import AuthContext from 'Context/AuthContext';
 import CurrentPageContext from 'Context/CurrentPageContext';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { useContext, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import authService from 'services/auth-service';
+import Swal from 'sweetalert2';
+import * as Yup from 'yup';
+import icon from '../Assets/blackLogoReact.png';
 
 
 export default function SignUp() {
@@ -201,7 +200,12 @@ export default function SignUp() {
                             </NavLink>
                         </p>
 
-                        {error && <p className=' border-red-500 border-b-2 w-fit mx-auto px-10 py-4 shadow-md rounded-3xl italic font-medium text-red-500 text-center'>{error}</p>}
+                        {error && (
+                            <p className='bg-red-100 border border-red-400 text-red-700 px-4 py-2 mx-auto mt-4 rounded-md shadow-md italic font-medium'>
+                                {error}
+                            </p>
+                        )}
+
                         {loading && <Spinner />}
                     </div>
                 </div>

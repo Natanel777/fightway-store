@@ -1,4 +1,4 @@
-import { ReactNode, SetStateAction, createContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useState } from "react";
 import { Product } from "utils/types";
 
 interface StoreContextState {
@@ -6,10 +6,10 @@ interface StoreContextState {
     setProducts: (product: Product[]) => void
 }
 
-const initialState:StoreContextState =
+const initialState: StoreContextState =
 {
     products: [],
-    setProducts: () => {},
+    setProducts: () => { },
 };
 
 //create context
@@ -21,7 +21,7 @@ export const StoreContextProvider = ({ children }: { children: ReactNode }) => {
     const [products, setProducts] = useState<Product[]>([]);
 
     return (
-        <StoreContext.Provider value={{products,setProducts}}>
+        <StoreContext.Provider value={{ products, setProducts }}>
             {children}
         </StoreContext.Provider>
     )

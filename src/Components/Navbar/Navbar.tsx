@@ -1,13 +1,12 @@
-import { Fragment, useContext, useState } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import logo from '../../Assets/logoReact.png';
-import { NavLink } from 'react-router-dom';
-import AuthContext from 'Context/AuthContext';
-import CurrentPageContext from 'Context/CurrentPageContext';
+import { Disclosure } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Cart from 'Components/Navbar/Cart';
-import Profile from './Profile';
+import CurrentPageContext from 'Context/CurrentPageContext';
+import { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 import classNames from 'utils/classNames';
+import logo from '../../Assets/logoReact.png';
+import Profile from './Profile';
 
 const navigation = [
     { name: 'Store', href: '/store' },

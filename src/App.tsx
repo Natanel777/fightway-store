@@ -1,28 +1,28 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-
-import Main from "Routes/Main";
-import Store from "Routes/Store";
-import Login from "Routes/Login";
-import Striking from "Routes/Striking";
-import Grappling from "Routes/Grappling";
-
-import About from "Routes/About";
-import Navbar from "Components/Navbar/Navbar";
-// import About from "Routes/About";
-import Page404 from './Routes/Page404';
 import Footer from "Components/Footer/Footer";
-import SignUp from "Routes/SignUp";
-import { useContext } from "react";
+import Navbar from "Components/Navbar/Navbar";
 import AuthContext from "Context/AuthContext";
-import Support from "Routes/Support";
-import ProductDetails from "Routes/ProductDetail";
+import About from "Routes/About";
 import CartItemDetails from "Routes/CartDetails ";
-import React from "react";
+import Grappling from "Routes/Grappling";
+import Login from "Routes/Login";
+import Main from "Routes/Main";
 import Order from "Routes/Order";
+import OrderManager from "Routes/OrderManager";
+import ProductDetails from "Routes/ProductDetail";
+import RecentOrders from "Routes/RecentOrders";
+import SignUp from "Routes/SignUp";
+import Store from "Routes/Store";
+import Striking from "Routes/Striking";
+import Support from "Routes/Support";
+import React, { useContext } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import authService from "services/auth-service";
+import Page404 from './Routes/Page404';
 
 
 const App = () => {
   const { isLoggedIn } = useContext(AuthContext)
+  const isAdmin = authService.isAdmin();
 
   //prevent manual access on element
   const PrivateRoute: React.FC<{ element: React.ReactNode }> = ({ element }) => {
@@ -45,8 +45,10 @@ const App = () => {
         <Route path="/striking" element={<Striking />} />
         <Route path="/grappling" element={<Grappling />} />
         <Route path="/support" element={<Support />} />
-        <Route path="/cartdetails" element={<CartItemDetails/>} />
+        <Route path="/cartdetails" element={<CartItemDetails />} />
         <Route path="/order" element={<PrivateRoute element={<Order />} />} />
+        {isLoggedIn && <Route path="/recentorders" element={<RecentOrders />} />}
+        {isAdmin && <Route path="/ordermanager" element={<OrderManager />} />}
         <Route path="/*" element={<Page404 />} />
       </Routes>
       <Footer />

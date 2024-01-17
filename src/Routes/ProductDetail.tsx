@@ -1,40 +1,29 @@
-import { ArrowLeftIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
+import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 
 import StoreContext from 'Context/StoreContext';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Navigation, Pagination, A11y } from 'swiper/modules';
+import { A11y, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import CartContext from 'Context/CartContext';
+import CurrentPageContext from 'Context/CurrentPageContext';
+import { useQuery } from 'react-query';
+import { storeRequest } from 'services/store-service';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import { useQuery } from 'react-query';
-import { storeCartPostRequest, storeCartRequest, storeRequest } from 'services/store-service';
-import CartContext from 'Context/CartContext';
-import AuthContext from 'Context/AuthContext';
-
-interface ProductDetailsProps {
-    product: {
-        id: number;
-        description: string;
-        image_url?: string;
-        name: string;
-        price: number;
-        type: string;
-    };
-}
 
 const ProductDetails = () => {
     const { id } = useParams();
     const [isButtonAnimating, setIsButtonAnimating] = useState(false);
     const { setProducts, products } = useContext(StoreContext);
     const { cart, addToCart } = useContext(CartContext);
-    const { isLoggedIn } = useContext(AuthContext);
     const { data: res } = useQuery("get-products", storeRequest);
     const navigate = useNavigate();
     const [quantity, setQuantity] = useState(1);
+    const { currentPage } = useContext(CurrentPageContext)
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -89,7 +78,7 @@ const ProductDetails = () => {
                 {product && (
                     <div className="bg-white p-8 max-w-2xl mx-auto rounded-md shadow-lg">
                         <button
-                            onClick={() => navigate("/store")}
+                            onClick={() => navigate(currentPage)}
                             className="flex items-center text-gray-600 hover:text-gray-800 text-lg focus:outline-none mb-4"
                         >
                             <svg
@@ -101,7 +90,7 @@ const ProductDetails = () => {
                             >
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                             </svg>
-                            Back to Store
+                            Back
                         </button>
 
                         {/* Product */}

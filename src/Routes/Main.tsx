@@ -1,26 +1,22 @@
-import { Fragment, useContext, useEffect, useState } from "react";
-import mmaImage from "../Assets/MMAcolor.png"
-import grapplingImage from "../Assets/grapplingImage.png"
-import strikingImage from "../Assets/strikingImage.png"
-import { Link, NavLink, useNavigate } from "react-router-dom";
 import CurrentPageContext from "Context/CurrentPageContext";
-import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Fragment, useContext, useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
-
-import logo from '../Assets/blackLogoReact.png'
+import { Swiper, SwiperSlide } from "swiper/react";
+import mmaImage from "../Assets/MMAcolor.png";
+import grapplingImage from "../Assets/grapplingImage.png";
+import strikingImage from "../Assets/strikingImage.png";
+import { Dialog, Transition } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import AuthContext from "Context/AuthContext";
 import StoreContext from "Context/StoreContext";
 import { useQuery } from "react-query";
-import { storeCartRequest, storeRequest } from "services/store-service";
-import AuthContext from "Context/AuthContext";
-import { Transition, Dialog, RadioGroup } from "@headlessui/react";
-import { XMarkIcon, StarIcon } from "@heroicons/react/24/outline";
-import classNames from "utils/classNames";
+import { storeRequest } from "services/store-service";
+import logo from '../Assets/blackLogoReact.png';
 
 
-//ATTENITON: I Did The Image Styiling Inside The Div So When I Reload The Page The Images Would Not Reload As Well
+//The Image Styiling Inside The <Div> So When I Reload The Page The Images Would Not Reload As Well
 const Main = () => {
-  //const { data: cartRes } = useQuery("get-cart-products", storeCartRequest)
   const { changeCurrentPage } = useContext(CurrentPageContext);
   const { isLoggedIn } = useContext(AuthContext)
 
@@ -28,11 +24,8 @@ const Main = () => {
   const { data: res } = useQuery("get-products", storeRequest)
   const [openProduct, setOpenProduct] = useState<number | null>(null);
 
-  //console.log(cartRes)
-
   useEffect(() => {
     if (res && products.length === 0 && products.length !== res.data.length) {
-      console.log(`all products: ${res}`)
       setProducts(res.data);
     }
   }, [products.length, res, setProducts])
@@ -174,16 +167,16 @@ const Main = () => {
                                       <p className="text-2xl text-gray-900 mt-2">{product.description}</p>
 
 
-  
-                                          <NavLink to={`/store/${product.id}`}
-                                          onClick={() => changeCurrentPage("/store")}
-                                            type="submit"
-                                            className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                          >
-                                            See More Details
-                                          </NavLink>
 
-                                    
+                                      <NavLink to={`/store/${product.id}`}
+                                        onClick={() => changeCurrentPage("/store")}
+                                        type="submit"
+                                        className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                      >
+                                        See More Details
+                                      </NavLink>
+
+
                                     </div>
                                   </div>
                                 </div>
@@ -228,7 +221,7 @@ const Main = () => {
                 <p>
                   Explore premium gear for your training needs. Elevate your martial arts journey with our curated selection. Join us for an amazing experience!
                 </p>
-                <NavLink onClick={() => {isLoggedIn ? changeCurrentPage("/store") : changeCurrentPage("/signup")}} to={isLoggedIn ? "/store" : "/signup"} >
+                <NavLink onClick={() => { isLoggedIn ? changeCurrentPage("/store") : changeCurrentPage("/signup") }} to={isLoggedIn ? "/store" : "/signup"} >
                   <button className="bg-gray-800 hover:bg-gray-600 text-white px-6 py-3 rounded-2xl transition duration-300 ease-in-out mt-14">
                     {isLoggedIn ? "Explore!" : "Join Us!"}
                   </button>

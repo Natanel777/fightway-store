@@ -1,10 +1,10 @@
-import { NavLink } from 'react-router-dom';
-import notFoundImage from '../Assets/NotFound.jpg';
 import CurrentPageContext from 'Context/CurrentPageContext';
 import { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
+import notFoundImage from '../Assets/NotFound.jpg';
 
 export default function Page404() {
-  const { currentPage, changeCurrentPage } = useContext(CurrentPageContext)
+  const { changeCurrentPage } = useContext(CurrentPageContext)
     const backgroundImageUrl = notFoundImage; 
 
   return (

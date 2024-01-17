@@ -6,7 +6,7 @@ interface AuthContextState {
     login: (username: string, token: string) => void;
     logout: () => void;
     token?: string
-    username?: string 
+    username?: string
 }
 
 const initialState =
@@ -29,25 +29,25 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     const [username, setUsername] = useState<string>();
     const [token, setToken] = useState<string>();
 
-   // This effect runs once after the initial render
+    // This effect runs once after the initial render
     useEffect(() => {
-      const data = localStorage.getItem("user")
-    
-      if(data){
-        const user = JSON.parse(data);
-        setIsLoggedIn(true);
-        setToken(user.token)
-        setUsername(user.username)
+        const data = localStorage.getItem("user")
 
-      }
+        if (data) {
+            const user = JSON.parse(data);
+            setIsLoggedIn(true);
+            setToken(user.token)
+            setUsername(user.username)
+
+        }
     }, [])
-    
+
 
     const auth = {
         isLoggedIn: isLoggedIn,
         token,
         username,
-        signUp:() =>{
+        signUp: () => {
             setIsLoggedIn(true)
         },
         login: (username: string, token: string) => {

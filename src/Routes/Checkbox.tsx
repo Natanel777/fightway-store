@@ -7,7 +7,7 @@ interface CheckboxProps {
 }
 
 const Checkbox: React.FC<CheckboxProps> = ({ id, label }) => {
-    const termsLink = 'https://www.dropbox.com/scl/fi/invnie92nz297jbsxctnw/htmlCode.pdf?rlkey=eeq6d0712yn4fyrsefjhl88wo&raw=1';
+  const termsLink = 'https://www.dropbox.com/scl/fi/invnie92nz297jbsxctnw/htmlCode.pdf?rlkey=eeq6d0712yn4fyrsefjhl88wo&raw=1';
 
   return (
     <div className="flex items-start">

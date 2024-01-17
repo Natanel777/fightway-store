@@ -1,46 +1,52 @@
-import React from "react";
-
-import { FaInstagram } from "react-icons/fa";
-
+import CurrentPageContext from "Context/CurrentPageContext";
+import { useContext } from "react";
+import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
+
+  const { changeCurrentPage } = useContext(CurrentPageContext)
+
+  
   return (
-
-    <footer className="bg-gray-900 text-white flex flex-col items-center justify-end h-32">
-      {/* <div className="md:flex md:justify-between md:items-center sm:px-12 px-4 bg-[#ffffff19] py-7">
-        <h1
-          className="lg:text-4xl text-3xl md:mb-0 mb-6 lg:leading-normal font-semibold
-         md:w-2/5"
-        >
-          <span className="text-teal-400">Free</span> until you're ready to
-          launch
-        </h1>
-        <div>
-          <input
-            type="text"
-            placeholder="Enter Your ph.no"
-            className="text-gray-800
-           sm:w-72 w-full sm:mr-5 mr-1 lg:mb-0 mb-4 py-2.5 rounded px-2 focus:outline-none"
-          />
-          <button
-            className="bg-teal-400 hover:bg-teal-500 duration-300 px-5 py-2.5 font-[Poppins]
-           rounded-md text-white md:w-auto w-full"
-          >
-            Request Code
-          </button>
+    <footer className="bg-gray-900 text-white py-8">
+      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between">
+        <div className="flex items-center justify-center space-x-4 mb-4 md:mb-0">
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
+            <FaInstagram className="text-2xl hover:text-teal-400" />
+          </a>
+          <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
+            <FaFacebook className="text-2xl hover:text-teal-400" />
+          </a>
+          <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer">
+            <FaTwitter className="text-2xl hover:text-teal-400" />
+          </a>
         </div>
-      </div> */}
 
-      <div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10
-      text-center pt-2 text-gray-400 text-sm pb-8"
-      >
-        <span>© 2020 Appy. All rights reserved.</span>
-        <span>Terms · Privacy Policy</span>
-        <FaInstagram />
+        <div className="mt-8 md:mt-0 flex flex-col md:flex-row">
+          <div className="flex flex-col items-center justify-center text-white md:mr-20 mb-4 md:mb-0">
+            <h3 className="text-lg font-semibold mb-2 text-teal-300">Explore</h3>
+            <Link to="/main" onClick={() => changeCurrentPage("/main")} className="hover:text-teal-400">Home</Link>
+            <Link to="/about" onClick={() => changeCurrentPage("/about")} className="hover:text-teal-400 mt-2">About</Link>
+          </div>
+          <div className="flex flex-col items-center justify-center text-white md:mr-20 mb-4 md:mb-0">
+            <h3 className="text-lg font-semibold mb-2 text-purple-400">Shop</h3>
+            <Link to="/store" onClick={() => changeCurrentPage("/store")} className="hover:text-purple-400 mt-2">Store</Link>
+            <Link to="/striking" onClick={() => changeCurrentPage("/striking")} className="hover:text-purple-400 mt-2">Striking</Link>
+            <Link to="/grappling" onClick={() => changeCurrentPage("/grappling")} className="hover:text-purple-400 mt-2">Grappling</Link>
+          </div>
+          <div className="flex flex-col items-center justify-center text-white mb-4 md:mb-0">
+            <h3 className="text-lg font-semibold mb-2 text-orange-400">Help</h3>
+            <Link to="/support" onClick={() => changeCurrentPage("/support")} className="hover:text-orange-400 mt-2">Support</Link>
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center justify-center mt-8">
+          <span className="mb-4">© 2024 Appy. All rights reserved.</span>
+          <span>Terms · Privacy Policy</span>
+        </div>
       </div>
     </footer>
-
   );
 };
 

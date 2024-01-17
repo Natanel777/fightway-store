@@ -1,71 +1,54 @@
 import FilterStore from "Components/FilterStore/FilterStore";
-import Spinner from "Components/Spinner/Spinner";
-import CurrentPageContext from "Context/CurrentPageContext";
-import StoreContext from "Context/StoreContext";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { storePageRequest } from "services/store-service";
-import { Page, SortDir } from "utils/types";
+import { SortDir } from "utils/types";
 
 
 const Store = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortByPage, setSortBy] = useState("id");
   const [sortDirPage, setSortDirPage] = useState(SortDir.desc);
+  const [sortTypePage, setTypePage] = useState("");
   const [products, setProducts] = useState([]);
-
-
   const { data: res, isSuccess } = useQuery("get-page-products", () => storePageRequest({
     pageNo: currentPage,
-    pageSize: 10,
+    pageSize: 15,
     sortBy: sortByPage,
     sortDir: sortDirPage,
-  }));
+    type: sortTypePage,
+  }),
+    {
+      enabled: true,
+
+    });
 
   //If Everthing Goes Well Save It
   useEffect(() => {
     if (isSuccess) {
       setProducts(res.data.results);
-    } else {
-      console.log(isSuccess);
-    }
+    } 
   }, [isSuccess, res]);
 
-
-
- 
-
-
+  //everytime sorting changes calling the page again
   const handlePageChange = useCallback(async (newPage: number) => {
 
     const newPageData = await storePageRequest({
       pageNo: newPage,
-      pageSize: 10,
+      pageSize: 15,
       sortBy: sortByPage,
       sortDir: sortDirPage,
+      type: sortTypePage,
     });
 
-    console.log(
-      'New Page:',
-      newPage,
-      'Page Size:',
-      currentPage,
-      'Sort By:',
-      sortByPage,
-      'Sort Direction:',
-      sortDirPage
-    );
-
     if (newPageData.status === 200) {
-      console.log('Setting current page:', newPage);
       setCurrentPage(newPage);
       setProducts([...newPageData.data.results] as any);
-      console.log(newPageData.data);
     }
 
     window.scrollTo(0, 0)
-  }, [sortByPage, sortDirPage,currentPage]);
+  }, [sortByPage, sortDirPage, sortTypePage]);
 
 
 
@@ -73,7 +56,7 @@ const Store = () => {
 
   useEffect(() => {
     handlePageChange(currentPage).catch(console.error);
- },[handlePageChange,currentPage])
+  }, [handlePageChange, currentPage])
 
 
 
@@ -88,7 +71,7 @@ const Store = () => {
   };
 
   const handleNewsetChange = async () => {
-    
+
     setSortBy(() => "id")
     setSortDirPage(() => SortDir.desc)
     setCurrentPage(() => 1)
@@ -96,23 +79,29 @@ const Store = () => {
   };
 
 
- 
+  const onSubcategoryClick = useCallback((subcategory: any) => {
+    setTypePage(subcategory)
+    setCurrentPage(1);
+  }, []);
+
+
+
   const onNewestClick = async () => await handleNewsetChange();
   const onPriceAscClick = async () => await handlePriceChange(SortDir.asc);
   const onPriceDescClick = async () => await handlePriceChange(SortDir.desc);
-  //const onTypeGlovesClick = () => handleTypeFilter('gloves');
+
   const filtersSection = {
     onNewestClick,
     onPriceAscClick,
     onPriceDescClick,
-    // onTypeGlovesClick
+    onSubcategoryClick,
   };
 
   return (
     <div>
       <FilterStore
         additionalComponent={
-          <div className="bg-white">
+          <div className="bg-white min-h-screen">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:p-8 xl:p-0">
               <h2 className="sr-only">Products</h2>
 
@@ -162,6 +151,7 @@ const Store = () => {
                   &#10141;
                 </button>
               </div>
+
             </div>
           </div>
         } filtersSection={filtersSection}

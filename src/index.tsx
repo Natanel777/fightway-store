@@ -1,14 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { BrowserRouter } from 'react-router-dom';
 import { AuthContextProvider } from 'Context/AuthContext';
-import CurrentPageContext, { CurrentPageContextWrapper } from 'Context/CurrentPageContext';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { StoreContextProvider } from 'Context/StoreContext';
-import 'swiper/swiper-bundle.css';
 import { CartContextProvider } from 'Context/CartContext';
+import { CurrentPageContextWrapper } from 'Context/CurrentPageContext';
+import { StoreContextProvider } from 'Context/StoreContext';
+import ReactDOM from 'react-dom/client';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { BrowserRouter } from 'react-router-dom';
+import 'swiper/swiper-bundle.css';
+import App from './App';
+import './index.css';
 
 
 

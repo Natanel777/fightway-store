@@ -1,13 +1,12 @@
-import { useContext } from 'react'
-import { ProgressBar } from 'react-loader-spinner'
+import { ProgressBar } from 'react-loader-spinner';
 
 
-interface SpinnerProps{
-    title?: string 
+interface SpinnerProps {
+    title?: string
     className?: string;
 }
 
-const Spinner = ({title = "", className}: SpinnerProps) => {
+const Spinner = ({ title = "", className }: SpinnerProps) => {
 
     return (
         <div className={className ?? 'my-10 flex flex-col justify-center items-center '}>

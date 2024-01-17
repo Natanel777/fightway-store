@@ -1,46 +1,59 @@
-# Getting Started with Create React App
+# FightWay Store
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![App Screenshot](path/to/your/screenshot.jpg) <!-- Replace with an actual screenshot of your app -->
 
-## Available Scripts
+FightWay Store is a web application that redefines the martial arts shopping experience. Unlike traditional e-commerce websites, FightWay allows users to choose their favorite martial arts sport and shop by discipline rather than gender.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+### Martial Arts Selection
+- Choose your favorite martial arts sport and explore a curated selection of products.
+- Browse categories specific to each martial arts discipline for a personalized shopping experience.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Product Insights
+- Gain insights into each product, including detailed descriptions, pricing, and images.
+- Explore a diverse range of products designed for various martial arts practices.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### User-Friendly Interface
+- Navigate effortlessly through the app with a user-friendly interface.
+- Enjoy a seamless shopping experience with an intuitive design and easy-to-use features.
 
-### `npm test`
+## Technologies Used
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Developed with React and TypeScript.
+- Utilizes React Router for efficient navigation.
+- Implements Formik for form handling and validation.
+- Uses Axios for making API calls and handling network requests.
+- Integrates Swiper for an interactive and visually appealing user interface.
+- Employs React Query for efficient data fetching and management.
+- Uses Yup for schema-based form validation.
+- Implements JWT Decode for decoding JSON Web Tokens.
 
-### `npm run build`
+## Screenshots
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![Screen1](path/to/your/screen1.png)  ![Screen2](path/to/your/screen2.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![Screen3](path/to/your/screen3.png)  ![Screen4](path/to/your/screen4.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Usage
 
-### `npm run eject`
+**Running the App:**
+1. Ensure you have all dependencies installed by running `npm install`.
+2. Start the app with `npm start`.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Using the App:**
+- On the initial run, the app fetches data from the API and stores it locally for faster access in subsequent runs.
+- Subsequent runs retrieve data directly from the local database, ensuring a quick and offline-friendly experience.
+- The "Update The App" button allows you to refresh data, delete the local database, and fetch fresh data from the API.
+- The "Update The App" option is especially useful to ensure you're always up-to-date with the latest products and details.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Deleting the Database:**
+- Use the "Update The App" button to clear the local database.
+- Useful for fetching fresh data, updating existing data, or troubleshooting local data-related issues.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**Exploring the App:**
+- View a list of all martial arts sports and their associated products.
+- Navigate to each martial art's product guide to explore individual items.
+- Enjoy a personalized shopping experience based on your favorite martial arts discipline.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Feel free to modify the content, structure, and styling of this README to best suit your project.

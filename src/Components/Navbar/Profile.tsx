@@ -1,28 +1,26 @@
 import { Menu, Transition } from '@headlessui/react'
 import AuthContext from 'Context/AuthContext'
 import CurrentPageContext from 'Context/CurrentPageContext'
-import React, { Fragment, useContext, useEffect } from 'react'
+import { Fragment, useContext } from 'react'
+import { FaUserCircle } from "react-icons/fa"
 import { NavLink } from 'react-router-dom'
+import authService from 'services/auth-service'
 import classNames from '../../utils/classNames'
-import { logout } from 'services/auth-service'
+
 
 
 const Profile = () => {
-    var a = classNames(" ")
     const { isLoggedIn, logout } = useContext(AuthContext)
     const { changeCurrentPage } = useContext(CurrentPageContext)
+    const userIsAdmin = authService.isAdmin();
 
     return (
         <div>{isLoggedIn ? (<Menu as="div" className="relative ml-4">
             <div>
-                <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 focus:ring-offset-gray-800">
                     <span className="absolute -inset-1.5" />
                     <span className="sr-only">Open user menu</span>
-                    <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt="Profile"
-                    />
+                    <FaUserCircle className="h-8 w-8 rounded-full bg-gray-800 text-gray-400" />
                 </Menu.Button>
             </div>
             <Transition
@@ -35,11 +33,26 @@ const Profile = () => {
                 leaveTo="transform opacity-0 scale-95"
             >
                 <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    {userIsAdmin && <Menu.Item>
+                        {({ active }) => (
+                            <NavLink
+                                to="/ordermanager"
+                                onClick={() => changeCurrentPage("/ordermanager")}
+                                className={classNames(
+                                    active ? 'bg-yellow-200' : '',
+                                    'block px-4 py-2 text-sm text-gray-700 bg-yellow-50 font-bold' // Add font-bold for unique font
+                                )}
+                            >
+                                Order Manager
+                            </NavLink>
+                        )}
+                    </Menu.Item>}
+
                     <Menu.Item>
                         {({ active }) => (
                             <NavLink
-                                to="/404"
-                                onClick={() => changeCurrentPage("/404")}
+                                to="/recentorders"
+                                onClick={() => changeCurrentPage("/recentorders")}
                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                             >
                                 Recent Orders
@@ -73,11 +86,12 @@ const Profile = () => {
 
                     <Menu.Item>
                         {({ active }) => (
-                            <div
-                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 cursor-pointer')}
-                                onClick={() => logout()}>
+                            <NavLink
+                                to="/main"
+                                onClick={() => { logout(); changeCurrentPage("/main") }}
+                                className={classNames(active ? 'bg-red-200' : '', 'block px-4 py-2 text-sm text-gray-700 cursor-pointer')}>
                                 Sign out
-                            </div>
+                            </NavLink>
                         )}
                     </Menu.Item>
                 </Menu.Items>

@@ -1,16 +1,16 @@
-import { NavLink, useNavigate } from 'react-router-dom'
-import icon from '../Assets/blackLogoReact.png'
-import { useContext, useState } from 'react'
-import CurrentPageContext from 'Context/CurrentPageContext'
-import * as Yup from 'yup';
-import AuthContext from 'Context/AuthContext';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
-import authService from 'services/auth-service';
 import Spinner from 'Components/Spinner/Spinner';
+import AuthContext from 'Context/AuthContext';
+import CurrentPageContext from 'Context/CurrentPageContext';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { useContext, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import authService from 'services/auth-service';
+import * as Yup from 'yup';
+import icon from '../Assets/blackLogoReact.png';
 
 export default function Login() {
 
-  const { currentPage, changeCurrentPage } = useContext(CurrentPageContext)
+  const { changeCurrentPage } = useContext(CurrentPageContext)
   const { login } = useContext(AuthContext)
   const nav = useNavigate();
   const [error, setError] = useState<string>();
@@ -35,7 +35,7 @@ export default function Login() {
 
         onSubmit={({ username, password }) => {
           setloading(true)
-          setError(undefined); 
+          setError(undefined);
 
           authService.login(username, password)
             .then((res) => {
@@ -46,7 +46,6 @@ export default function Login() {
             })
 
             .catch((e) => {
-              console.log(e.response.data)
               setError("Invalid username or password.")
             })
 
@@ -125,7 +124,7 @@ export default function Login() {
                   </button>
                 </div>
               </Form>
-            
+
               <p className="mt-6 text-center text-sm text-gray-500">
                 Don't have an account yet?{' '}
                 <NavLink to="/signup" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">

@@ -11,18 +11,18 @@ interface CartContextState {
 
 const initialState: CartContextState = {
   cart: [],
-  addToCart: () => {},
-  removeFromCart: () => {},
-  clearCart: () => {},
-  updateQuantity: () => {},
+  addToCart: () => { },
+  removeFromCart: () => { },
+  clearCart: () => { },
+  updateQuantity: () => { },
 };
 
 const CART_STORAGE_KEY = 'cart';
 
-// Create context
+
 const CartContext = createContext<CartContextState>(initialState);
 
-// Wrapper component
+
 export const CartContextProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<Cart[]>([]);
 
@@ -82,7 +82,7 @@ export const CartContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, updateQuantity  }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, updateQuantity }}>
       {children}
     </CartContext.Provider>
   );

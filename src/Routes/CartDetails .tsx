@@ -1,26 +1,25 @@
-// CartDetails.js
-
-import React, { useContext, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import CartContext from 'Context/CartContext';
-import { IoIosLock } from 'react-icons/io';
-import logo from '../Assets/blackLogoReact.png';
 import AuthContext from 'Context/AuthContext';
-import Swal from 'sweetalert2';
+import CartContext from 'Context/CartContext';
 import CurrentPageContext from 'Context/CurrentPageContext';
+import { useContext, useState } from 'react';
+import { IoIosLock } from 'react-icons/io';
+import { NavLink, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { deliveryFee } from 'utils/types';
+import logo from '../Assets/blackLogoReact.png';
 
 const CartDetails = () => {
   const { cart, removeFromCart, updateQuantity } = useContext(CartContext);
-  const {isLoggedIn} = useContext(AuthContext)
-  const {changeCurrentPage} = useContext(CurrentPageContext)
+  const { isLoggedIn } = useContext(AuthContext)
+  const { changeCurrentPage } = useContext(CurrentPageContext)
   const [removedItemId, setRemovedItemId] = useState(null);
   const navigate = useNavigate();
 
   const orderButton = () => {
-    if(isLoggedIn){
+    if (isLoggedIn) {
       navigate("/order")
     }
-    else{
+    else {
       Swal.fire({
         title: "You Need To Sign Up",
         text: "in order to continue with the order details you need to sign up!",
@@ -49,10 +48,8 @@ const CartDetails = () => {
     }, 300); // Set a timeout to match the duration of the transition
   };
 
-  const deliveryFee = 15;
-
   return (
-    <div className={`max-w-4xl mx-auto p-4 ${cart.length === 0 ? 'h-screen' : ''}`}>
+    <div className={`max-w-4xl mx-auto p-4 ${cart.length <= 3 ? 'h-screen' : ''}`}>
       {cart.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-full">
           <img
@@ -79,9 +76,8 @@ const CartDetails = () => {
               {cart.map((cartItem) => (
                 <div
                   key={cartItem.product.id}
-                  className={`flex flex-col md:flex-row items-center border-b border-gray-200 py-2 bg-white shadow-lg rounded-md mb-4 transition-opacity ${
-                    removedItemId === cartItem.product.id ? 'opacity-0' : 'opacity-100'
-                  }`}
+                  className={`flex flex-col md:flex-row items-center border-b border-gray-200 py-2 bg-white shadow-lg rounded-md mb-4 transition-opacity ${removedItemId === cartItem.product.id ? 'opacity-0' : 'opacity-100'
+                    }`}
                 >
                   <div className="w-full md:w-1/4 mb-4 md:mb-0 md:mr-4 overflow-hidden">
                     <NavLink to={`/store/${cartItem.product.id}`} onClick={() => changeCurrentPage("/store")}>
@@ -96,11 +92,11 @@ const CartDetails = () => {
                     <NavLink
                       to={`/store/${cartItem.product.id}`}
                       onClick={() => changeCurrentPage("/store")}
-                      className="text-blue-600 hover:underline font-semibold"
+                      className="text-blue-600 hover:underline font-semibold text-lg"
                     >
                       {cartItem.product.name}
                     </NavLink>
-                    <p className="text-gray-500 mb-2">{cartItem.product.category?.name}</p>
+                    <p className="text-gray-500 mb-2 text-sm">{cartItem.product.category?.name}</p>
                     <div className="flex items-center">
                       <div className="flex items-center mb-2 md:mb-0 mr-4">
                         <button
@@ -135,7 +131,7 @@ const CartDetails = () => {
                           </svg>
                         </button>
                       </div>
-                      <p className="text-gray-700">&#8362;{(cartItem.product.price * cartItem.quantity).toFixed(2)}</p>
+                      <p className="text-gray-700 text-lg">&#8362;{(cartItem.product.price * cartItem.quantity).toFixed(2)}</p>
                       <button
                         type="button"
                         onClick={() => handleRemove(cartItem.product.id)}
@@ -179,7 +175,7 @@ const CartDetails = () => {
             <div className="mt-6">
               <button
                 type="button"
-                className="bg-green-700 text-white px-6 py-3 rounded-md hover:bg-green-800 focus:outline-none w-full"
+                className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-md focus:outline-none w-full transition duration-300"
                 onClick={orderButton}
               >
                 Continue with Order
@@ -194,6 +190,7 @@ const CartDetails = () => {
       )}
     </div>
   );
+
 };
 
 export default CartDetails;
