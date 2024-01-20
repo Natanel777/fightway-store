@@ -5,7 +5,7 @@
 
 FightWay Store is a web application that redefines the martial arts shopping experience. Unlike traditional e-commerce websites, FightWay allows users to choose their favorite martial arts sport and shop by that rather than gender.
 
-**Note:** FightWay Store is designed to be accessible on all screens with enhanced visibility features and important information is also presented in readable text format, ensuring a comprehensive experience for all users.
+**Note: FightWay Store is designed to be accessible on all screens with enhanced visibility features and important information is also presented in readable text format, ensuring a comprehensive experience for all users.**
 
 ## Navigation Bar
 - [**Pages**](#pages)
@@ -17,15 +17,15 @@ FightWay Store is a web application that redefines the martial arts shopping exp
 
 ## Pages
 
-**Store (MMA) Page**
+### Store (MMA) Page
 
 The MMA page is the heart of FightWay, Here, you'll find every product including exclusive products that relates to Mixed Martial Arts, covering both grappling and striking essentials. ensuring you have access to the best gear for your training.
 
-**Striking Page**
+### Striking Page
 
 Here, you'll find every striking products. Whether you're into kickboxing, boxing, or other striking-focused martial arts, FightWay provides top-notch gear designed to enhance your training and performance.
 
-**Grappling Page**
+### Grappling Page
 
 Here, you'll find every grappling enthusiasts product, From specialized gear to accessories, this section is designed to meet the unique demands of grappling.
 ## Features
