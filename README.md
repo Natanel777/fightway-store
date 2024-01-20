@@ -1,6 +1,6 @@
 # FightWay Store
 
-![App Screenshot](screenshots/fightwayExample6.png) 
+![App Screenshot](screenshots/logoReact.png) 
 
 
 FightWay Store is a web application that redefines the martial arts shopping experience. Unlike traditional e-commerce websites, FightWay allows users to choose their favorite martial arts sport and shop by that rather than gender.
