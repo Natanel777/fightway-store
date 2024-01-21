@@ -69,7 +69,7 @@ Here, you'll find every grappling enthusiasts product, From specialized gear to 
 
 
 1. Ensure you have all dependencies installed by running `npm install`.
-2. Ensure the backend is running and accessible. Refer to the [fightWay-backend](https://github.com/Natanel777/AndroidApp#usage) for setup instructions.
+2. Ensure the backend is running and accessible. Refer to the [fightWay-backend](https://github.com/Natanel777/fightway-backend#build-and-run) for setup instructions.
 3. Start the app with `npm start`.
 
 ### Customer Experience
@@ -97,6 +97,7 @@ only the manager can access the Order Manager page and change the status of a cu
 - **Login Manager Credentials:**
   - **Username:** Nate
   - **Password:** Nate777
+  
 
 - **instructions:**
   1. Log in with the provided manager credentials.
@@ -111,3 +112,8 @@ only the manager can access the Order Manager page and change the status of a cu
         - **Pending:** Order is awaiting review.
         - **Declined:** Manager has declined the order.
        - **Approved:** Manager has approved the order for processing.
+
+
+<div style="text-align: center;">
+  <img src="screenshots/fightwaymanager1.png" alt="Manager Screen 1">
+</div>
